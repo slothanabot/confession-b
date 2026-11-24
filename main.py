@@ -15,6 +15,11 @@ LINE = (
 
 
 def main() -> None:
+    # Self-check the gate the sealed scorer enforces: 1-200 UTF-8 chars,
+    # a single line, not only whitespace. Fail loudly instead of writing
+    # an entry the judge would list as invalid.
+    if not (1 <= len(LINE) <= 200) or "\n" in LINE or not LINE.strip():
+        raise ValueError("confession line violates the 1-200 char single-line gate")
     out_dir = os.environ.get("MAKEFUN_OUTPUT_DIR", "/output")
     os.makedirs(out_dir, exist_ok=True)
     path = os.path.join(out_dir, "entry.txt")
